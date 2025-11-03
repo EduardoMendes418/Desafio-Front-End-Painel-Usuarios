@@ -1,21 +1,21 @@
 {
   "users": [
     {
-      "id": "1",
-      "name": "João Silva teste",
-      "email": "joao@email.com",
-      "status": "active"
-    },
-    {
-      "id": "3",
-      "name": "Pedro Costa",
-      "email": "pedro@email.com",
+      "id": "2e9a",
+      "name": "teste",
+      "email": "teste@GMAIL.COM",
       "status": "inactive"
     },
     {
-      "id": "940d",
-      "name": "Eduardo teste teste",
-      "email": "teste@teste",
+      "id": "5e6e",
+      "name": "Pedro Costa",
+      "email": "pedro@email.com",
+      "status": "active"
+    },
+    {
+      "id": "e1d9",
+      "name": "Pedro Costa",
+      "email": "eduardomendes418@gmail.com",
       "status": "active"
     }
   ]
