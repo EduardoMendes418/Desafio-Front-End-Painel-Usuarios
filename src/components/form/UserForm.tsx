@@ -1,7 +1,8 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import { TextField, Button, MenuItem, Box, Alert } from '@mui/material';
 import type { User } from '../../types/User';
+import { useUserForm } from '../../hooks/useUserForm';
 
 
 interface UserFormProps {
@@ -11,43 +12,16 @@ interface UserFormProps {
 }
 
 export const UserForm: React.FC<UserFormProps> = ({ user, onSave, isSubmitting = false }) => {
-  const [name, setName] = useState(user?.name || '');
-  const [email, setEmail] = useState(user?.email || '');
-  const [status, setStatus] = useState<User['status']>(user?.status || 'active');
-  const [error, setError] = useState('');
-
-
-  useEffect(() => {
-    setName(user?.name || '');
-    setEmail(user?.email || '');
-    setStatus(user?.status || 'active');
-    setError('');
-  }, [user]);
-
-  const validateForm = (): string | null => {
-    if (!name.trim() || !email.trim()) return 'Nome e e-mail são obrigatórios';
-    if (!email.includes('@')) return 'E-mail inválido';
-    return null;
-  };
-
-  const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      const validationError = validateForm();
-      if (validationError) {
-        setError(validationError);
-        return;
-      }
-
-      onSave({
-        id: user?.id,
-        name: name.trim(),
-        email: email.trim(),
-        status,
-      });
-    },
-    [name, email, status, onSave, user?.id]
-  );
+  const {
+    name,
+    email,
+    status,
+    error,
+    setName,
+    setEmail,
+    setStatus,
+    handleSubmit,
+  } = useUserForm({ user, onSave });
 
   const buttonLabel = `${user ? 'Atualizar' : 'Criar'} Usuário`;
 
@@ -66,6 +40,7 @@ export const UserForm: React.FC<UserFormProps> = ({ user, onSave, isSubmitting =
         required
         fullWidth
         disabled={isSubmitting}
+        autoFocus
       />
       <TextField
         label="E-mail"
@@ -87,7 +62,13 @@ export const UserForm: React.FC<UserFormProps> = ({ user, onSave, isSubmitting =
         <MenuItem value="active">Ativo</MenuItem>
         <MenuItem value="inactive">Inativo</MenuItem>
       </TextField>
-      <Button type="submit" variant="contained" size="large" disabled={isSubmitting}>
+      <Button
+        type="submit"
+        variant="contained"
+        size="large"
+        disabled={isSubmitting}
+        aria-label={buttonLabel}
+      >
         {isSubmitting ? 'Salvando...' : buttonLabel}
       </Button>
     </Box>
