@@ -19,11 +19,7 @@ const DeleteDialogComponent: React.FC<DeleteDialogProps> = ({ onConfirm }) => {
   return (
     <>
       <DeleteDialogTrigger onClick={handleOpen} />
-      <DeleteDialogContent
-        open={open}
-        onClose={handleClose}
-        onConfirm={handleConfirm}
-      />
+      <DeleteDialogContent open={open} onClose={handleClose} onConfirm={handleConfirm} />
     </>
   );
 };

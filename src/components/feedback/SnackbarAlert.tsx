@@ -1,13 +1,18 @@
-import { Snackbar } from "@mui/material";
+import { Snackbar } from '@mui/material';
 
 interface SnackbarAlertProps {
   open: boolean;
   message: string;
-  severity: "success" | "error";
+  severity: 'success' | 'error';
   onClose: () => void;
 }
 
-export const SnackbarAlert: React.FC<SnackbarAlertProps> = ({ open, message, severity, onClose }) => (
+export const SnackbarAlert: React.FC<SnackbarAlertProps> = ({
+  open,
+  message,
+  severity,
+  onClose,
+}) => (
   <Snackbar
     open={open}
     autoHideDuration={4000}
@@ -15,8 +20,8 @@ export const SnackbarAlert: React.FC<SnackbarAlertProps> = ({ open, message, sev
     message={message}
     ContentProps={{
       sx: {
-        backgroundColor: severity === "error" ? "error.main" : "success.main",
-        color: "white",
+        backgroundColor: severity === 'error' ? 'error.main' : 'success.main',
+        color: 'white',
       },
     }}
   />

@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback } from 'react';
 import { validateUserForm } from './validateUserForm';
 import type { User } from '../types/User';
@@ -43,7 +42,7 @@ export const useUserForm = ({ user, onSave }: UseUserFormProps) => {
         status,
       });
     },
-    [name, email, status, onSave, user?.id]
+    [name, email, status, onSave, user?.id],
   );
 
   return {

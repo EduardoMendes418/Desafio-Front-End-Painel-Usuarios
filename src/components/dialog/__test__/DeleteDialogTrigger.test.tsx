@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { DeleteDialogTrigger } from '../DeleteDialogTrigger';
 
-
 describe('DeleteDialogTrigger', () => {
   it('deve renderizar o botão de excluir', () => {
     const mockOnClick = jest.fn();

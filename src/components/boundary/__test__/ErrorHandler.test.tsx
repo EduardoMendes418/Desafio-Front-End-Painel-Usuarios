@@ -2,11 +2,9 @@ import { render, screen } from '@testing-library/react';
 import { useErrorHandler } from '../../../hooks/useErrorHandler';
 import { ErrorHandler } from '../ErrorHandler';
 
-
 jest.mock('../../../hooks/useErrorHandler');
 
 const mockUseErrorHandler = useErrorHandler as jest.MockedFunction<typeof useErrorHandler>;
-
 
 jest.mock('../ErrorFallback', () => ({
   ErrorFallback: ({ onRetry, error }: { onRetry?: () => void; error?: Error }) => (
@@ -34,7 +32,7 @@ describe('ErrorHandler', () => {
     render(
       <ErrorHandler>
         <div>Conteúdo normal</div>
-      </ErrorHandler>
+      </ErrorHandler>,
     );
 
     expect(screen.getByText('Conteúdo normal')).toBeInTheDocument();
@@ -51,7 +49,7 @@ describe('ErrorHandler', () => {
     render(
       <ErrorHandler>
         <div>Conteúdo normal</div>
-      </ErrorHandler>
+      </ErrorHandler>,
     );
 
     expect(screen.getByText('ErrorFallback Mock')).toBeInTheDocument();
@@ -72,7 +70,7 @@ describe('ErrorHandler', () => {
     render(
       <ErrorHandler onError={mockOnError}>
         <div>Conteúdo normal</div>
-      </ErrorHandler>
+      </ErrorHandler>,
     );
 
     expect(mockOnError).toHaveBeenCalledWith(testError);

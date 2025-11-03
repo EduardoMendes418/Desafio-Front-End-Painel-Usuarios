@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  Button,
-  Paper,
-  Alert,
-  Container,
-  useTheme,
-} from '@mui/material';
+import { Box, Typography, Button, Paper, Alert, Container, useTheme } from '@mui/material';
 import { Refresh, ErrorOutline } from '@mui/icons-material';
 
 interface ErrorFallbackProps {
@@ -45,8 +37,8 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onRetry }) 
           </Typography>
 
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-            Encontramos um problema inesperado. Por favor, tente recarregar a página 
-            ou voltar mais tarde.
+            Encontramos um problema inesperado. Por favor, tente recarregar a página ou voltar mais
+            tarde.
           </Typography>
 
           {onRetry && (

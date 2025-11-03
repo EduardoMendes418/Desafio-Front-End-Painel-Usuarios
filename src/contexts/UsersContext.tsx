@@ -1,7 +1,5 @@
-
 import React, { createContext, useContext, type ReactNode } from 'react';
 import { useUsers } from '../hooks/useUsers';
-
 
 interface UsersContextType {
   usersQuery: ReturnType<typeof useUsers>['usersQuery'];
@@ -19,11 +17,7 @@ interface UsersProviderProps {
 export const UsersProvider: React.FC<UsersProviderProps> = ({ children }) => {
   const users = useUsers();
 
-  return (
-    <UsersContext.Provider value={users}>
-      {children}
-    </UsersContext.Provider>
-  );
+  return <UsersContext.Provider value={users}>{children}</UsersContext.Provider>;
 };
 
 export const useUsersContext = () => {

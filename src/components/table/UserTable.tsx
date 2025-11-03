@@ -1,5 +1,14 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { Paper, Table, TableHead, TableBody, TableRow, TableCell, Typography, Box } from '@mui/material';
+import {
+  Paper,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Typography,
+  Box,
+} from '@mui/material';
 import type { User } from '../../types/User';
 import { UserTableToolbar } from './UserTableToolbar';
 import { UserTableRow } from './UserTableRow';
@@ -22,20 +31,16 @@ const UserTableComponent: React.FC<UserTableProps> = ({ users, onEdit, onDelete 
     const filtered = users.filter(
       (user) =>
         user.name.toLowerCase().includes(filter.toLowerCase()) ||
-        user.email.toLowerCase().includes(filter.toLowerCase())
+        user.email.toLowerCase().includes(filter.toLowerCase()),
     );
 
     return filtered.sort((a, b) =>
-      sortOrder === 'asc'
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
+      sortOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name),
     );
   }, [users, filter, sortOrder]);
 
   const noUsersMessage =
-    users.length === 0
-      ? 'Nenhum usuário cadastrado'
-      : 'Nenhum usuário encontrado';
+    users.length === 0 ? 'Nenhum usuário cadastrado' : 'Nenhum usuário encontrado';
 
   return (
     <Box>
@@ -63,12 +68,7 @@ const UserTableComponent: React.FC<UserTableProps> = ({ users, onEdit, onDelete 
             </TableHead>
             <TableBody>
               {filteredAndSortedUsers.map((user) => (
-                <UserTableRow
-                  key={user.id}
-                  user={user}
-                  onEdit={onEdit}
-                  onDelete={onDelete}
-                />
+                <UserTableRow key={user.id} user={user} onEdit={onEdit} onDelete={onDelete} />
               ))}
             </TableBody>
           </Table>

@@ -1,6 +1,6 @@
-import type { User } from "../types/User";
+import type { User } from '../types/User';
 
-const API_BASE_URL = "http://localhost:3001";
+const API_BASE_URL = 'http://localhost:3001';
 
 const handleResponse = async (response: Response) => {
   if (!response.ok) {
@@ -12,10 +12,7 @@ const handleResponse = async (response: Response) => {
     throw new Error(errorMessage);
   }
 
-  if (
-    response.status === 204 ||
-    response.headers.get("content-length") === "0"
-  ) {
+  if (response.status === 204 || response.headers.get('content-length') === '0') {
     return null;
   }
 
@@ -28,23 +25,23 @@ export const userApi = {
       const response = await fetch(`${API_BASE_URL}/users`);
       return await handleResponse(response);
     } catch (error) {
-      console.error("Erro ao buscar usuários:", error);
+      console.error('Erro ao buscar usuários:', error);
       throw error;
     }
   },
 
-  createUser: async (user: Omit<User, "id">): Promise<User> => {
+  createUser: async (user: Omit<User, 'id'>): Promise<User> => {
     try {
       const response = await fetch(`${API_BASE_URL}/users`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(user),
       });
       return await handleResponse(response);
     } catch (error) {
-      console.error("Erro ao criar usuário:", error);
+      console.error('Erro ao criar usuário:', error);
       throw error;
     }
   },
@@ -52,15 +49,15 @@ export const userApi = {
   updateUser: async (user: User): Promise<User> => {
     try {
       const response = await fetch(`${API_BASE_URL}/users/${user.id}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(user),
       });
       return await handleResponse(response);
     } catch (error) {
-      console.error("Erro ao atualizar usuário:", error);
+      console.error('Erro ao atualizar usuário:', error);
       throw error;
     }
   },
@@ -68,11 +65,11 @@ export const userApi = {
   deleteUser: async (id: number): Promise<void> => {
     try {
       const response = await fetch(`${API_BASE_URL}/users/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
       await handleResponse(response);
     } catch (error) {
-      console.error("Erro ao excluir usuário:", error);
+      console.error('Erro ao excluir usuário:', error);
       throw error;
     }
   },

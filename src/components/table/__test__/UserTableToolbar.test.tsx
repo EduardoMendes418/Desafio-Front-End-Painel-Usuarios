@@ -9,7 +9,7 @@ describe('UserTableToolbar', () => {
     filter: '',
     onFilterChange: mockOnFilterChange,
     sortOrder: 'asc' as const,
-    onSort: mockOnSort
+    onSort: mockOnSort,
   };
 
   beforeEach(() => {
@@ -48,5 +48,4 @@ describe('UserTableToolbar', () => {
 
     expect(mockOnSort).toHaveBeenCalledTimes(1);
   });
-
 });

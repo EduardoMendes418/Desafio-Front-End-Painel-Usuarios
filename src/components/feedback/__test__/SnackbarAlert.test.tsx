@@ -4,13 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { SnackbarAlert } from '../SnackbarAlert';
 
 jest.mock('@mui/material/Snackbar', () => {
-  const MockSnackbar = ({ 
-    open, 
-    message, 
-    autoHideDuration, 
-    onClose, 
-    ContentProps 
-  }: any) => {
+  const MockSnackbar = ({ open, message, autoHideDuration, onClose, ContentProps }: any) => {
     React.useEffect(() => {
       if (open && autoHideDuration && onClose) {
         const timer = setTimeout(() => {
@@ -23,38 +17,28 @@ jest.mock('@mui/material/Snackbar', () => {
     if (!open) return null;
 
     return (
-      <div 
-        role="alert" 
+      <div
+        role="alert"
         data-testid="snackbar"
         style={ContentProps?.sx}
         data-severity={ContentProps?.['data-severity']}
       >
         <span data-testid="snackbar-message">{message}</span>
-        <button 
-          onClick={() => onClose({}, 'escapeKeyDown')}
-          data-testid="snackbar-close-escape"
-        >
+        <button onClick={() => onClose({}, 'escapeKeyDown')} data-testid="snackbar-close-escape">
           Close via Escape
         </button>
-        <button 
-          onClick={() => onClose({}, 'clickaway')}
-          data-testid="snackbar-close-clickaway"
-        >
+        <button onClick={() => onClose({}, 'clickaway')} data-testid="snackbar-close-clickaway">
           Close via Click Away
         </button>
       </div>
     );
   };
-  
+
   return MockSnackbar;
 });
 
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider theme={createTheme()}>
-      {component}
-    </ThemeProvider>
-  );
+  return render(<ThemeProvider theme={createTheme()}>{component}</ThemeProvider>);
 };
 
 describe('SnackbarAlert', () => {
@@ -77,7 +61,7 @@ describe('SnackbarAlert', () => {
         message="Operação realizada com sucesso"
         severity="success"
         onClose={mockOnClose}
-      />
+      />,
     );
 
     expect(screen.getByTestId('snackbar')).toBeInTheDocument();
@@ -91,7 +75,7 @@ describe('SnackbarAlert', () => {
         message="Operação realizada com sucesso"
         severity="success"
         onClose={mockOnClose}
-      />
+      />,
     );
 
     expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
@@ -104,7 +88,7 @@ describe('SnackbarAlert', () => {
         message="Teste auto close"
         severity="success"
         onClose={mockOnClose}
-      />
+      />,
     );
 
     jest.advanceTimersByTime(4000);
@@ -115,12 +99,7 @@ describe('SnackbarAlert', () => {
 
   it('deve chamar onClose quando fechado via escape', () => {
     renderWithTheme(
-      <SnackbarAlert
-        open={true}
-        message="Teste escape"
-        severity="success"
-        onClose={mockOnClose}
-      />
+      <SnackbarAlert open={true} message="Teste escape" severity="success" onClose={mockOnClose} />,
     );
 
     fireEvent.click(screen.getByTestId('snackbar-close-escape'));
@@ -136,7 +115,7 @@ describe('SnackbarAlert', () => {
         message="Teste click away"
         severity="success"
         onClose={mockOnClose}
-      />
+      />,
     );
 
     fireEvent.click(screen.getByTestId('snackbar-close-clickaway'));
@@ -152,7 +131,7 @@ describe('SnackbarAlert', () => {
         message="Teste duration"
         severity="success"
         onClose={mockOnClose}
-      />
+      />,
     );
 
     jest.advanceTimersByTime(2000);
@@ -167,7 +146,7 @@ describe('SnackbarAlert', () => {
         message="Teste cleanup"
         severity="success"
         onClose={mockOnClose}
-      />
+      />,
     );
 
     unmount();

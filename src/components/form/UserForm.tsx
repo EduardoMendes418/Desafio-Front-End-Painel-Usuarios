@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { TextField, Button, MenuItem, Box, Alert } from '@mui/material';
 import type { User } from '../../types/User';
 import { useUserForm } from '../../hooks/useUserForm';
-
 
 interface UserFormProps {
   user?: User;
@@ -12,16 +10,10 @@ interface UserFormProps {
 }
 
 export const UserForm: React.FC<UserFormProps> = ({ user, onSave, isSubmitting = false }) => {
-  const {
-    name,
-    email,
-    status,
-    error,
-    setName,
-    setEmail,
-    setStatus,
-    handleSubmit,
-  } = useUserForm({ user, onSave });
+  const { name, email, status, error, setName, setEmail, setStatus, handleSubmit } = useUserForm({
+    user,
+    onSave,
+  });
 
   const buttonLabel = `${user ? 'Atualizar' : 'Criar'} Usuário`;
 

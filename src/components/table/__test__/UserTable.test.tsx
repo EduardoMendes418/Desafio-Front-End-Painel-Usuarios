@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { UserTable } from '../UserTable';
 import { User } from '../../../types/User';
 
-
 jest.mock('../UserTableToolbar', () => ({
   UserTableToolbar: jest.fn(({ filter, onFilterChange, sortOrder, onSort }) => (
     <div>
@@ -39,20 +38,20 @@ describe('UserTable', () => {
       id: 1,
       name: 'João Silva',
       email: 'joao@example.com',
-      status: 'active'
+      status: 'active',
     },
     {
       id: 2,
       name: 'Maria Santos',
       email: 'maria@example.com',
-      status: 'inactive'
+      status: 'inactive',
     },
     {
       id: 3,
       name: 'Pedro Oliveira',
       email: 'pedro@example.com',
-      status: 'active'
-    }
+      status: 'active',
+    },
   ];
 
   const mockOnEdit = jest.fn();
@@ -166,6 +165,4 @@ describe('UserTable', () => {
 
     expect(mockOnDelete).toHaveBeenCalledWith(mockUsers[1].id);
   });
-
-
 });

@@ -9,19 +9,15 @@ interface UserTableRowProps {
   onDelete: (id: number) => void;
 }
 
-export const UserTableRow: React.FC<UserTableRowProps> = ({
-  user,
-  onEdit,
-  onDelete,
-}) => {
+export const UserTableRow: React.FC<UserTableRowProps> = ({ user, onEdit, onDelete }) => {
   const getStatusColor = useCallback(
     (status: User['status']) => (status === 'active' ? 'success' : 'error'),
-    []
+    [],
   );
 
   const getStatusText = useCallback(
     (status: User['status']) => (status === 'active' ? 'Ativo' : 'Inativo'),
-    []
+    [],
   );
 
   return (
@@ -29,19 +25,10 @@ export const UserTableRow: React.FC<UserTableRowProps> = ({
       <TableCell>{user.name}</TableCell>
       <TableCell>{user.email}</TableCell>
       <TableCell>
-        <Chip
-          label={getStatusText(user.status)}
-          color={getStatusColor(user.status)}
-          size="small"
-        />
+        <Chip label={getStatusText(user.status)} color={getStatusColor(user.status)} size="small" />
       </TableCell>
       <TableCell width="200px">
-        <Button
-          onClick={() => onEdit(user)}
-          variant="outlined"
-          size="small"
-          sx={{ mr: 1 }}
-        >
+        <Button onClick={() => onEdit(user)} variant="outlined" size="small" sx={{ mr: 1 }}>
           Editar
         </Button>
         <DeleteDialog onConfirm={() => onDelete(user.id)} />

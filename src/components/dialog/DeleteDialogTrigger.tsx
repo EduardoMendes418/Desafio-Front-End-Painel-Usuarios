@@ -6,12 +6,7 @@ interface DeleteDialogTriggerProps {
 }
 
 export const DeleteDialogTrigger: React.FC<DeleteDialogTriggerProps> = ({ onClick }) => (
-  <Button
-    color="error"
-    variant="outlined"
-    size="small"
-    onClick={onClick}
-  >
+  <Button color="error" variant="outlined" size="small" onClick={onClick}>
     Excluir
   </Button>
 );

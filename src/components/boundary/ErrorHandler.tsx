@@ -3,18 +3,13 @@ import { ErrorFallback } from './ErrorFallback';
 import { ErrorBoundary } from './ErrorBoundary';
 import { useErrorHandler } from '../../hooks/useErrorHandler';
 
-
 interface ErrorHandlerProps {
   children: ReactNode;
   fallback?: ReactNode;
   onError?: (error: Error) => void;
 }
 
-export const ErrorHandler: React.FC<ErrorHandlerProps> = ({
-  children,
-  fallback,
-  onError,
-}) => {
+export const ErrorHandler: React.FC<ErrorHandlerProps> = ({ children, fallback, onError }) => {
   const { error, handleError, resetError, hasError } = useErrorHandler();
 
   React.useEffect(() => {

@@ -16,7 +16,7 @@ describe('UserTableRow', () => {
     id: 1,
     name: 'João Silva',
     email: 'joao@example.com',
-    status: 'active'
+    status: 'active',
   };
 
   const mockOnEdit = jest.fn();
@@ -32,7 +32,7 @@ describe('UserTableRow', () => {
         <tbody>
           <UserTableRow user={mockUser} onEdit={mockOnEdit} onDelete={mockOnDelete} />
         </tbody>
-      </table>
+      </table>,
     );
 
     expect(screen.getByText('João Silva')).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe('UserTableRow', () => {
   it('deve mostrar status inativo corretamente', () => {
     const inactiveUser: User = {
       ...mockUser,
-      status: 'inactive'
+      status: 'inactive',
     };
 
     render(
@@ -51,7 +51,7 @@ describe('UserTableRow', () => {
         <tbody>
           <UserTableRow user={inactiveUser} onEdit={mockOnEdit} onDelete={mockOnDelete} />
         </tbody>
-      </table>
+      </table>,
     );
 
     expect(screen.getByText('Inativo')).toBeInTheDocument();
@@ -63,7 +63,7 @@ describe('UserTableRow', () => {
         <tbody>
           <UserTableRow user={mockUser} onEdit={mockOnEdit} onDelete={mockOnDelete} />
         </tbody>
-      </table>
+      </table>,
     );
 
     const editButton = screen.getByText('Editar');
@@ -79,7 +79,7 @@ describe('UserTableRow', () => {
         <tbody>
           <UserTableRow user={mockUser} onEdit={mockOnEdit} onDelete={mockOnDelete} />
         </tbody>
-      </table>
+      </table>,
     );
 
     const deleteButton = screen.getByTestId('delete-dialog');
@@ -95,18 +95,18 @@ describe('UserTableRow', () => {
         <tbody>
           <UserTableRow user={mockUser} onEdit={mockOnEdit} onDelete={mockOnDelete} />
         </tbody>
-      </table>
+      </table>,
     );
 
     // Testa que as funções são memoizadas
     const firstRender = screen.getByText('Ativo');
-    
+
     rerender(
       <table>
         <tbody>
           <UserTableRow user={mockUser} onEdit={mockOnEdit} onDelete={mockOnDelete} />
         </tbody>
-      </table>
+      </table>,
     );
 
     const secondRender = screen.getByText('Ativo');

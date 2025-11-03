@@ -5,11 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { DeleteDialogContent } from '../DeleteDialogContent';
 
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider theme={createTheme()}>
-      {component}
-    </ThemeProvider>
-  );
+  return render(<ThemeProvider theme={createTheme()}>{component}</ThemeProvider>);
 };
 
 describe('DeleteDialogContent', () => {
@@ -22,11 +18,7 @@ describe('DeleteDialogContent', () => {
 
   it('deve renderizar o diálogo quando open é true', () => {
     renderWithTheme(
-      <DeleteDialogContent 
-        open={true} 
-        onClose={mockOnClose} 
-        onConfirm={mockOnConfirm} 
-      />
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
     expect(screen.getByText(/Confirmar Exclusão/i)).toBeInTheDocument();
@@ -37,11 +29,7 @@ describe('DeleteDialogContent', () => {
 
   it('não deve renderizar o diálogo quando open é false', () => {
     renderWithTheme(
-      <DeleteDialogContent 
-        open={false} 
-        onClose={mockOnClose} 
-        onConfirm={mockOnConfirm} 
-      />
+      <DeleteDialogContent open={false} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
     expect(screen.queryByText(/Confirmar Exclusão/i)).not.toBeInTheDocument();
@@ -49,11 +37,7 @@ describe('DeleteDialogContent', () => {
 
   it('deve chamar onClose quando o botão cancelar é clicado', () => {
     renderWithTheme(
-      <DeleteDialogContent 
-        open={true} 
-        onClose={mockOnClose} 
-        onConfirm={mockOnConfirm} 
-      />
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
     const cancelButton = screen.getByRole('button', { name: /cancelar/i });
@@ -64,11 +48,7 @@ describe('DeleteDialogContent', () => {
 
   it('deve chamar onClose quando o botão fechar (X) é clicado', () => {
     renderWithTheme(
-      <DeleteDialogContent 
-        open={true} 
-        onClose={mockOnClose} 
-        onConfirm={mockOnConfirm} 
-      />
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
     const closeButton = screen.getByLabelText(/fechar/i);
@@ -79,11 +59,7 @@ describe('DeleteDialogContent', () => {
 
   it('deve chamar onConfirm quando o botão excluir é clicado', () => {
     renderWithTheme(
-      <DeleteDialogContent 
-        open={true} 
-        onClose={mockOnClose} 
-        onConfirm={mockOnConfirm} 
-      />
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
     const deleteButton = screen.getByRole('button', { name: /excluir/i });
@@ -94,11 +70,7 @@ describe('DeleteDialogContent', () => {
 
   it('deve ter os atributos de acessibilidade corretos', () => {
     renderWithTheme(
-      <DeleteDialogContent 
-        open={true} 
-        onClose={mockOnClose} 
-        onConfirm={mockOnConfirm} 
-      />
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
     const dialog = screen.getByRole('dialog');
@@ -108,11 +80,7 @@ describe('DeleteDialogContent', () => {
 
   it('deve renderizar o ícone de warning', () => {
     renderWithTheme(
-      <DeleteDialogContent 
-        open={true} 
-        onClose={mockOnClose} 
-        onConfirm={mockOnConfirm} 
-      />
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
     expect(screen.getByTestId('WarningAmberIcon')).toBeInTheDocument();

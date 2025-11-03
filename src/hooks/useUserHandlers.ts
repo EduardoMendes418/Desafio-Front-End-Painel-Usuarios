@@ -1,11 +1,11 @@
-import { useState, useCallback, useMemo } from "react";
-import type { User } from "../types/User";
-import { useUsersContext } from "../contexts/UsersContext";
+import { useState, useCallback, useMemo } from 'react';
+import type { User } from '../types/User';
+import { useUsersContext } from '../contexts/UsersContext';
 
 type SnackbarState = {
   open: boolean;
   message: string;
-  severity: "success" | "error";
+  severity: 'success' | 'error';
 };
 
 export const useUserHandlers = () => {
@@ -13,30 +13,33 @@ export const useUserHandlers = () => {
   const [editingUser, setEditingUser] = useState<User | undefined>();
   const [snackbar, setSnackbar] = useState<SnackbarState>({
     open: false,
-    message: "",
-    severity: "success",
+    message: '',
+    severity: 'success',
   });
 
-  const showSnackbar = useCallback((message: string, severity: "success" | "error" = "success") => {
+  const showSnackbar = useCallback((message: string, severity: 'success' | 'error' = 'success') => {
     setSnackbar({ open: true, message, severity });
   }, []);
 
   const handleSave = useCallback(
-    (userData: Omit<User, "id"> & { id?: number }) => {
+    (userData: Omit<User, 'id'> & { id?: number }) => {
       const isUpdate = Boolean(userData.id);
       const mutation = isUpdate ? updateMutation : createMutation;
 
       mutation.mutate(userData as User, {
         onSuccess: () => {
           if (isUpdate) setEditingUser(undefined);
-          showSnackbar(`Usuário ${isUpdate ? "atualizado" : "criado"} com sucesso!`);
+          showSnackbar(`Usuário ${isUpdate ? 'atualizado' : 'criado'} com sucesso!`);
         },
         onError: (error) => {
-          showSnackbar(error.message || `Erro ao ${isUpdate ? "atualizar" : "criar"} usuário`, "error");
+          showSnackbar(
+            error.message || `Erro ao ${isUpdate ? 'atualizar' : 'criar'} usuário`,
+            'error',
+          );
         },
       });
     },
-    [createMutation, updateMutation, showSnackbar]
+    [createMutation, updateMutation, showSnackbar],
   );
 
   const handleEdit = useCallback((user: User) => setEditingUser(user), []);
@@ -45,16 +48,16 @@ export const useUserHandlers = () => {
   const handleDelete = useCallback(
     (id: number) => {
       deleteMutation.mutate(id, {
-        onSuccess: () => showSnackbar("Usuário excluído com sucesso!"),
-        onError: (error) => showSnackbar(error.message || "Erro ao excluir usuário", "error"),
+        onSuccess: () => showSnackbar('Usuário excluído com sucesso!'),
+        onError: (error) => showSnackbar(error.message || 'Erro ao excluir usuário', 'error'),
       });
     },
-    [deleteMutation, showSnackbar]
+    [deleteMutation, showSnackbar],
   );
 
   const isSubmitting = useMemo(
     () => createMutation.isPending || updateMutation.isPending,
-    [createMutation.isPending, updateMutation.isPending]
+    [createMutation.isPending, updateMutation.isPending],
   );
 
   const hasError =
