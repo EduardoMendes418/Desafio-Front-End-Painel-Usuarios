@@ -17,6 +17,12 @@
       "name": "Pedro Costa",
       "email": "eduardomendes418@gmail.com",
       "status": "active"
+    },
+    {
+      "id": "2514",
+      "name": "eduardo",
+      "email": "pedro@email.com",
+      "status": "inactive"
     }
   ]
 }
