@@ -1,51 +1,41 @@
-import React, { type ReactNode } from 'react';
+import React, { Component, type ReactNode } from 'react';
+import { ErrorFallback } from './ErrorFallback';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
+  fallback?: ReactNode;
+  onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
 }
 
 interface ErrorBoundaryState {
   hasError: boolean;
+  error?: Error;
 }
 
-export class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = { hasError: false };
 
-
-  static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
   }
-
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary capturou um erro:', error, errorInfo);
+    this.props.onError?.(error, errorInfo);
   }
 
+  handleRetry = () => {
+    this.setState({ hasError: false, error: undefined });
+  };
+
   render() {
-    const { hasError } = this.state;
+    const { hasError, error } = this.state;
+    const { children, fallback } = this.props;
 
     if (hasError) {
-      return (
-        <div
-          style={{
-            padding: 20,
-            textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '50vh',
-          }}
-        >
-          <h1>Ops! Algo deu errado.</h1>
-          <p>Por favor, recarregue a página ou tente novamente mais tarde.</p>
-        </div>
-      );
+      return fallback ?? <ErrorFallback error={error} onRetry={this.handleRetry} />;
     }
 
-    return this.props.children;
+    return children;
   }
 }
