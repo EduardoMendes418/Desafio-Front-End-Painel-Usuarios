@@ -8,6 +8,13 @@ const renderWithTheme = (component: React.ReactElement) => {
   return render(<ThemeProvider theme={createTheme()}>{component}</ThemeProvider>);
 };
 
+jest.mock('@mui/material/ButtonBase/TouchRipple', () => {
+  return {
+    __esModule: true,
+    default: () => null,
+  };
+});
+
 describe('DeleteDialog Integration', () => {
   const mockOnConfirm = jest.fn();
 

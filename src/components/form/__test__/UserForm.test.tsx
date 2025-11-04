@@ -1,151 +1,143 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { useUserForm } from '../../../hooks/useUserForm';
-import { User } from '../../../types/User';
-import { UserForm } from '../UserForm';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { DeleteDialogContent } from '../../dialog/DeleteDialogContent';
 
-jest.mock('../../../hooks/useUserForm');
+const renderWithTheme = (component: React.ReactElement) => {
+  return render(<ThemeProvider theme={createTheme()}>{component}</ThemeProvider>);
+};
 
-const mockUseUserForm = useUserForm as jest.MockedFunction<typeof useUserForm>;
-
-describe('UserForm', () => {
-  const mockOnSave = jest.fn();
-  const mockUser: User = {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@example.com',
-    status: 'active',
+jest.mock('@mui/material/ButtonBase/TouchRipple', () => {
+  return {
+    __esModule: true,
+    default: () => null,
   };
+});
+
+describe('DeleteDialogContent', () => {
+  const mockOnClose = jest.fn();
+  const mockOnConfirm = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  const mockHookReturn = (overrides = {}) => ({
-    name: '',
-    email: '',
-    status: 'active' as User['status'],
-    error: '',
-    setName: jest.fn(),
-    setEmail: jest.fn(),
-    setStatus: jest.fn(),
-    handleSubmit: jest.fn((e: React.FormEvent) => {
-      e.preventDefault();
-      mockOnSave();
-    }),
-    ...overrides,
-  });
-
-  it('deve renderizar o formulário de criação corretamente', () => {
-    mockUseUserForm.mockReturnValue(mockHookReturn());
-
-    render(<UserForm onSave={mockOnSave} />);
-
-    expect(screen.getByLabelText(/nome/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/e-mail/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/status/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /criar usuário/i })).toBeInTheDocument();
-  });
-
-  it('deve renderizar o formulário de edição quando user é fornecido', () => {
-    mockUseUserForm.mockReturnValue(
-      mockHookReturn({
-        name: mockUser.name,
-        email: mockUser.email,
-        status: mockUser.status,
-      }),
+  it('deve renderizar o diálogo quando open é true', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
-    render(<UserForm user={mockUser} onSave={mockOnSave} />);
-
-    expect(screen.getByRole('button', { name: /atualizar usuário/i })).toBeInTheDocument();
-    expect(screen.getByDisplayValue(mockUser.name)).toBeInTheDocument();
-    expect(screen.getByDisplayValue(mockUser.email)).toBeInTheDocument();
+    expect(screen.getByText(/Confirmar Exclusão/i)).toBeInTheDocument();
+    expect(screen.getByText(/Tem certeza que deseja excluir este usuário?/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /excluir/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /cancelar/i })).toBeInTheDocument();
   });
 
-  it('deve exibir mensagem de erro quando há erro', () => {
-    const errorMessage = 'Erro de validação';
-    mockUseUserForm.mockReturnValue(
-      mockHookReturn({
-        error: errorMessage,
-      }),
+  it('não deve renderizar o diálogo quando open é false', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={false} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
-    render(<UserForm onSave={mockOnSave} />);
-
-    expect(screen.getByText(errorMessage)).toBeInTheDocument();
-    expect(screen.getByRole('alert')).toHaveTextContent(errorMessage);
+    expect(screen.queryByText(/Confirmar Exclusão/i)).not.toBeInTheDocument();
   });
 
-  it('deve desabilitar campos quando isSubmitting é true', () => {
-    mockUseUserForm.mockReturnValue(mockHookReturn());
-
-    render(<UserForm onSave={mockOnSave} isSubmitting={true} />);
-
-    expect(screen.getByLabelText(/nome/i)).toBeDisabled();
-    expect(screen.getByLabelText(/e-mail/i)).toBeDisabled();
-    expect(screen.getByRole('button')).toBeDisabled();
-    expect(screen.getByRole('button')).toHaveTextContent(/salvando/i);
-  });
-
-  it('deve chamar setName quando o campo nome é alterado', () => {
-    const mockSetName = jest.fn();
-    mockUseUserForm.mockReturnValue(
-      mockHookReturn({
-        setName: mockSetName,
-      }),
+  it('deve chamar onClose quando o botão cancelar é clicado', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
-    render(<UserForm onSave={mockOnSave} />);
+    const cancelButton = screen.getByRole('button', { name: /cancelar/i });
+    fireEvent.click(cancelButton);
 
-    const nameInput = screen.getByLabelText(/nome/i);
-    fireEvent.change(nameInput, { target: { value: 'Novo Nome' } });
-
-    expect(mockSetName).toHaveBeenCalledWith('Novo Nome');
+    expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
-  it('deve chamar setEmail quando o campo email é alterado', () => {
-    const mockSetEmail = jest.fn();
-    mockUseUserForm.mockReturnValue(
-      mockHookReturn({
-        setEmail: mockSetEmail,
-      }),
+  it('deve chamar onClose quando o botão fechar (X) é clicado', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
     );
 
-    render(<UserForm onSave={mockOnSave} />);
+    const closeButton = screen.getByLabelText(/fechar/i);
+    fireEvent.click(closeButton);
 
-    const emailInput = screen.getByLabelText(/e-mail/i);
-    fireEvent.change(emailInput, { target: { value: 'novo@email.com' } });
-
-    expect(mockSetEmail).toHaveBeenCalledWith('novo@email.com');
+    expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
-  it('deve ter autoFocus no campo nome', () => {
-    mockUseUserForm.mockReturnValue(mockHookReturn());
+  it('deve chamar onConfirm quando o botão excluir é clicado', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+    );
 
-    render(<UserForm onSave={mockOnSave} />);
+    const deleteButton = screen.getByRole('button', { name: /excluir/i });
+    fireEvent.click(deleteButton);
 
-    const nameInput = screen.getByLabelText(/nome/i);
-    expect(nameInput).toHaveFocus();
+    expect(mockOnConfirm).toHaveBeenCalledTimes(1);
   });
 
-  it('deve usar valores padrão corretamente', () => {
-    mockUseUserForm.mockReturnValue(mockHookReturn());
+  it('deve ter os atributos de acessibilidade usando query seletor', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+    );
 
-    render(<UserForm onSave={mockOnSave} />);
+    const dialog = document.querySelector('[aria-labelledby="delete-dialog-title"]');
 
-    expect(screen.getByRole('button')).not.toBeDisabled();
-    expect(screen.getByRole('button')).toHaveTextContent(/criar usuário/i);
+    expect(dialog).toBeInTheDocument();
+    expect(dialog).toHaveAttribute('aria-describedby', 'delete-dialog-description');
+    expect(dialog).toHaveAttribute('aria-modal', 'true');
+    expect(dialog).toHaveAttribute('role', 'dialog');
   });
 
-  it('deve passar as props corretas para o hook useUserForm', () => {
-    mockUseUserForm.mockReturnValue(mockHookReturn());
+  it('deve renderizar o ícone de warning', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+    );
 
-    render(<UserForm user={mockUser} onSave={mockOnSave} isSubmitting={true} />);
+    expect(screen.getByTestId('WarningAmberIcon')).toBeInTheDocument();
+  });
 
-    expect(mockUseUserForm).toHaveBeenCalledWith({
-      user: mockUser,
-      onSave: mockOnSave,
-    });
+  it('deve ter o título correto com ícone de warning', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+    );
+
+    const titleElement = screen.getByText('Confirmar Exclusão');
+    expect(titleElement).toBeInTheDocument();
+
+    const icon = screen.getByTestId('WarningAmberIcon');
+    expect(icon).toBeInTheDocument();
+    expect(icon.closest('h2')).toContainElement(titleElement);
+  });
+
+  it('deve ter a descrição correta do diálogo', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+    );
+
+    const description = screen.getByText(/Tem certeza que deseja excluir este usuário?/i);
+    expect(description).toBeInTheDocument();
+    expect(description).toHaveAttribute('id', 'delete-dialog-description');
+  });
+
+  it('deve ter botões com atributos de acessibilidade', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+    );
+
+    const cancelButton = screen.getByRole('button', { name: /cancelar/i });
+    const deleteButton = screen.getByRole('button', { name: /excluir/i });
+
+    expect(cancelButton).toHaveAttribute('aria-describedby', 'delete-dialog-description');
+    expect(deleteButton).toHaveAttribute('aria-describedby', 'delete-dialog-description');
+    expect(deleteButton).toHaveClass('MuiButton-containedError');
+  });
+
+  it('deve ter o botão de fechar acessível', () => {
+    renderWithTheme(
+      <DeleteDialogContent open={true} onClose={mockOnClose} onConfirm={mockOnConfirm} />,
+    );
+
+    const closeButton = screen.getByLabelText(/fechar/i);
+    expect(closeButton).toBeInTheDocument();
+    expect(closeButton).toHaveAttribute('type', 'button');
   });
 });
