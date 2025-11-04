@@ -89,3 +89,5 @@ export const UsersPage: React.FC = () => {
     </Container>
   );
 };
+
+export default UsersPage;

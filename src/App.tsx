@@ -1,9 +1,11 @@
-import React from 'react';
-import { UsersPage } from './pages/UsersPage';
+import React, { Suspense, lazy } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from './components/boundary/ErrorBoundary';
 import { UsersProvider } from './contexts/UsersContext';
 import { AppThemeProvider } from './contexts/ThemeContext';
+import { CircularProgress, Box } from '@mui/material';
+
+const UsersPage = lazy(() => import('../src/pages/UsersPage'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,7 +24,20 @@ const App: React.FC = () => (
     <ErrorBoundary>
       <AppThemeProvider>
         <UsersProvider>
-          <UsersPage />
+          <Suspense
+            fallback={
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                height="100vh"
+              >
+                <CircularProgress />
+              </Box>
+            }
+          >
+            <UsersPage />
+          </Suspense>
         </UsersProvider>
       </AppThemeProvider>
     </ErrorBoundary>
