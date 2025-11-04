@@ -98,7 +98,6 @@ describe('UserTableRow', () => {
       </table>,
     );
 
-    // Testa que as funções são memoizadas
     const firstRender = screen.getByText('Ativo');
 
     rerender(

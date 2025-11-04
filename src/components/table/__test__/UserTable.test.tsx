@@ -112,7 +112,7 @@ describe('UserTable', () => {
   it('deve ordenar usuários em ordem ascendente por padrão', () => {
     render(<UserTable users={mockUsers} onEdit={mockOnEdit} onDelete={mockOnDelete} />);
 
-    // Ordem ascendente: João, Maria, Pedro
+
     const rows = screen.getAllByTestId(/user-row-/);
     expect(rows[0]).toHaveTextContent('João Silva');
     expect(rows[1]).toHaveTextContent('Maria Santos');
@@ -125,7 +125,7 @@ describe('UserTable', () => {
     const sortButton = screen.getByTestId('sort-button');
     fireEvent.click(sortButton);
 
-    // Ordem descendente: Pedro, Maria, João
+
     const rows = screen.getAllByTestId(/user-row-/);
     expect(rows[0]).toHaveTextContent('Pedro Oliveira');
     expect(rows[1]).toHaveTextContent('Maria Santos');
@@ -137,12 +137,11 @@ describe('UserTable', () => {
 
     const sortButton = screen.getByTestId('sort-button');
 
-    // Primeiro clique: asc -> desc
+
     fireEvent.click(sortButton);
     let rows = screen.getAllByTestId(/user-row-/);
     expect(rows[0]).toHaveTextContent('Pedro Oliveira');
 
-    // Segundo clique: desc -> asc
     fireEvent.click(sortButton);
     rows = screen.getAllByTestId(/user-row-/);
     expect(rows[0]).toHaveTextContent('João Silva');

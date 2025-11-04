@@ -16,7 +16,7 @@ import { SnackbarAlert } from '../components/feedback/SnackbarAlert';
 import { LoadingState } from '../components/feedback/LoadingState';
 import { useUserHandlers } from '../hooks/useUserHandlers';
 
-export const UsersPage: React.FC = () => {
+const UsersPage: React.FC = () => {
   const { darkMode, toggleTheme } = useThemeContext();
   const {
     usersQuery,

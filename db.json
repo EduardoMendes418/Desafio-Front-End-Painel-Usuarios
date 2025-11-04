@@ -1,12 +1,6 @@
 {
   "users": [
     {
-      "id": "2e9a",
-      "name": "teste",
-      "email": "teste@GMAIL.COM",
-      "status": "inactive"
-    },
-    {
       "id": "5e6e",
       "name": "Pedro Costa",
       "email": "pedro@email.com",
@@ -22,7 +16,7 @@
       "id": "2514",
       "name": "eduardo",
       "email": "pedro@email.com",
-      "status": "inactive"
+      "status": "active"
     }
   ]
 }
