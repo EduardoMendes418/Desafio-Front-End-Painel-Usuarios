@@ -1,6 +1,11 @@
-from pathlib import Path
 
-# Define o conteúdo do README
+
+
+## 🚀 Funcionalidades Principais
+
+<img width="912" height="928" alt="layout" src="https://github.com/user-attachments/assets/56d8ec4a-03b3-44df-ba6f-42622ece1fce" />
+
+# Define o conteúdo 
 
 Descrição do Projeto
 
@@ -14,8 +19,6 @@ A aplicação foi construída com foco em:
 - ♿ **Acessibilidade** seguindo as melhores práticas **WCAG**
 
 ---
-
-## 🚀 Funcionalidades Principais
 
 ### 👥 Gerenciamento de Usuários
 
