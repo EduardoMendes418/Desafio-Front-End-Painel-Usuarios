@@ -20,6 +20,9 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onRetry }) 
         minHeight="80vh"
         textAlign="center"
         px={2}
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
       >
         <Paper
           elevation={3}
@@ -30,13 +33,22 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onRetry }) 
             border: `1px solid ${theme.palette.divider}`,
           }}
         >
-          <ErrorOutline color="error" sx={{ fontSize: 64, mb: 3, opacity: 0.8 }} />
+          <ErrorOutline
+            color="error"
+            sx={{ fontSize: 64, mb: 3, opacity: 0.8 }}
+            aria-hidden="true"
+          />
 
-          <Typography variant="h4" gutterBottom fontWeight="medium">
+          <Typography variant="h4" gutterBottom fontWeight="medium" id="error-fallback-title">
             Ops! Algo deu errado
           </Typography>
 
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{ mb: 3 }}
+            id="error-fallback-description"
+          >
             Encontramos um problema inesperado. Por favor, tente recarregar a página ou voltar mais
             tarde.
           </Typography>
@@ -55,6 +67,8 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onRetry }) 
                 textTransform: 'none',
                 fontWeight: 'medium',
               }}
+              aria-describedby="error-fallback-description"
+              autoFocus
             >
               Tentar Novamente
             </Button>
@@ -62,7 +76,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onRetry }) 
 
           {error && (
             <Box sx={{ mt: 3 }}>
-              <Alert severity="error" sx={{ textAlign: 'left' }}>
+              <Alert severity="error" sx={{ textAlign: 'left' }} role="status">
                 <Typography variant="subtitle2" gutterBottom>
                   Detalhes do erro:
                 </Typography>
@@ -76,6 +90,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, onRetry }) 
                     mt: 1,
                     fontFamily: 'monospace',
                   }}
+                  aria-label="Detalhes técnicos do erro"
                 >
                   {error.toString()}
                 </Typography>

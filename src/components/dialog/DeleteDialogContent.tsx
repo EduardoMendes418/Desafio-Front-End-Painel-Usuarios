@@ -25,7 +25,7 @@ export const DeleteDialogContent: React.FC<DeleteDialogContentProps> = ({
 }) => {
   const dialogTitle = (
     <Box display="flex" alignItems="center" gap={1}>
-      <WarningAmberIcon color="warning" />
+      <WarningAmberIcon color="warning" aria-hidden="true" />
       Confirmar Exclusão
     </Box>
   );
@@ -38,13 +38,16 @@ export const DeleteDialogContent: React.FC<DeleteDialogContentProps> = ({
       fullWidth
       aria-labelledby="delete-dialog-title"
       aria-describedby="delete-dialog-description"
+      role="dialog"
+      aria-modal="true"
     >
       <DialogTitle id="delete-dialog-title">
         {dialogTitle}
         <IconButton
-          aria-label="Fechar"
+          aria-label="Fechar diálogo de exclusão"
           onClick={onClose}
           sx={{ position: 'absolute', right: 8, top: 8 }}
+          size="large"
         >
           <CloseIcon />
         </IconButton>
@@ -57,8 +60,16 @@ export const DeleteDialogContent: React.FC<DeleteDialogContentProps> = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button color="error" onClick={onConfirm} variant="contained">
+        <Button onClick={onClose} aria-describedby="delete-dialog-description">
+          Cancelar
+        </Button>
+        <Button
+          color="error"
+          onClick={onConfirm}
+          variant="contained"
+          aria-describedby="delete-dialog-description"
+          autoFocus
+        >
           Excluir
         </Button>
       </DialogActions>

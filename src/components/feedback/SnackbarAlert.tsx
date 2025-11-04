@@ -18,11 +18,15 @@ export const SnackbarAlert: React.FC<SnackbarAlertProps> = ({
     autoHideDuration={4000}
     onClose={onClose}
     message={message}
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
     ContentProps={{
       sx: {
         backgroundColor: severity === 'error' ? 'error.main' : 'success.main',
         color: 'white',
       },
+      role: severity === 'error' ? 'alert' : 'status',
     }}
   />
 );
